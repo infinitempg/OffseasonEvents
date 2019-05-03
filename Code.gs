@@ -200,7 +200,7 @@ function makeBoard2() {
 //  var bestSheet = ss.getSheetByName('bestList')
   var genSheet = ss.getSheetByName('boardGen')
   var pickSheet = ss.getSheetByName('draftOrder')
-  var pickCardSheet = ss.getSheetByName('picksCSV')
+  var draftCardSheet = ss.getSheetByName('draftCards')
   
 // Getting values
   pickNum = genSheet.getLastRow() - 1
@@ -255,7 +255,7 @@ function makeBoard2() {
 ////  Logger.log(bestFour)
   
   // Looping to make all picks
-  
+  imageIndices = []
   for (k = 0; k< tradeNum+1; k++){
     // First image
     // Possibly convert these to arrays and write ONCE?
@@ -270,7 +270,7 @@ function makeBoard2() {
 //      boardSheet.getRange(2+tradeIndices[k]+k-1,3).setValue('\\clock\\'+orderList[k][tradeIndices[k]-k]+'.png')
 //      boardSheet.getRange(2+tradeIndices[k]+k-1,4,1,4).setValues(bestFour)
 //      pickIndex = 2
-      for(var x = 0; x<=pickLen; x++) {
+      for(var x = 0; x<=pickLen-1; x++) {
         boardSheet.getRange(2+tradeIndices[k]+k-1,pickIndex + x*3).setValue('\\pickbkg\\'+orderList[k][x]+'.png')
         //if k = 0, else
         if (x < tradeIndices[k]-1){
@@ -301,6 +301,7 @@ function makeBoard2() {
     for (t = tradeIndices[k]-1; t < tradeIndices[k+1]-1; t++){
       Logger.log('t:%s',t)
       img = k+t+1
+      imageIndices.push(img)
       Logger.log('img:%s',img)
       boardSheet.getRange(3+t+k,1).setValue(img+'z')
 //      boardSheet.getRange(3+t+k,2).setValue(t+1)
@@ -315,7 +316,7 @@ function makeBoard2() {
 //      Logger.log(bestFour[0])
 //      boardSheet.getRange(3+t+k,4,1,4).setValues(bestFour)
       
-      for(var x = 0; x<=pickLen; x++) {
+      for(var x = 0; x<=pickLen-1; x++) {
         boardSheet.getRange(3+t+k,pickIndex + x*3).setValue('\\pickbkg\\'+orderList[k][x]+'.png')
         if (x < t+1){
           boardSheet.getRange(3+t+k,pickIndex + x*3 + 1).setValue(pickArray[x][0])
@@ -329,5 +330,10 @@ function makeBoard2() {
     }
     
     // the next trade
+  }
+  Logger.log(imageIndices)
+  
+  for(var x = 1; x <= imageIndices.length-1; x++) {
+    draftCardSheet.getRange(1+x,1).setValue(imageIndices[x])
   }
 }
