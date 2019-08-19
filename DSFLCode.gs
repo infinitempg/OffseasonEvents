@@ -165,7 +165,7 @@ function makeBoard() {
 //      Logger.log(bestFour[0])
 //      boardSheet.getRange(3+t+k,4,1,4).setValues(bestFour)
       
-      for(var x = 0; x<=pickLen; x++) {
+      for(var x = 0; x<=pickLen-1; x++) {
         boardSheet.getRange(3+t+k,pickIndex + x*3).setValue('\\pickbkg\\'+orderList[k][x]+'.png')
         if (x < t+1){
           boardSheet.getRange(3+t+k,pickIndex + x*3 + 1).setValue(pickArray[x][0])
@@ -180,7 +180,9 @@ function makeBoard() {
     
     // the next trade
   }
-    for(var x = 1; x <= imageIndices.length; x++) {
+  Logger.log(imageIndices)
+  
+  for(var x = 1; x <= imageIndices.length-1; x++) {
     draftCardSheet.getRange(1+x,1).setValue(imageIndices[x])
   }
 }
